@@ -1,0 +1,60 @@
+item {
+  id: 1
+  name: 'person'
+}
+item {
+  id: 2
+  name: 'suitcase'
+}
+item {
+  id: 3
+  name: 'airplane'
+}
+item {
+  id: 4
+  name: 'baseball bat'
+}
+item {
+  id: 5
+  name: 'bed'
+}
+item {
+  id: 6
+  name: 'boat'
+}
+item {
+  id: 7
+  name: 'bus'
+}
+item {
+  id: 8
+  name: 'car'
+}
+item {
+  id: 9
+  name: 'motorcycle'
+}
+item {
+  id: 10
+  name: 'skis'
+}
+item {
+  id: 11
+  name: 'snowboard'
+}
+item {
+  id: 12
+  name: 'sports ball'
+}
+item {
+  id: 13
+  name: 'stop sign'
+}
+item {
+  id: 14
+  name: 'tennis racket'
+}
+item {
+  id: 15
+  name: 'umbrella'
+}
