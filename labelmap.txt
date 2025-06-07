@@ -1,0 +1,15 @@
+airplane
+baseball bat
+bed
+boat
+bus
+car
+motorcycle
+person
+skis
+snowboard
+sports ball
+stop sign
+suitcase
+tennis racket
+umbrella
