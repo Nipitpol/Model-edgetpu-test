@@ -1,0 +1,54 @@
+Procedure to run detector
+
+
+====================================================================================================================================
+On Coral
+
+1.mdt shell
+2.cd tflite1/
+3.open GStreamer with Detector
+	3.1.python3 TFLite_detection_send.py --modeldir=Sample_TFLite_model --edgetpu		# For preweight is default
+	3.2.python3 TFLite_detection_send.py --modeldir=model-for-edgetpu --edgetpu			# For custom weight
+	3.3.python3 TFLite_detection_send.py --modeldir=Model-edgetpu-test --edgetpu			# For custom weight all class
+
+
+=====================================================================================================================================
+Before using custom weight
+# In Coral board folder tflite1/
+1.nano TFLite_detection_sender.py
+2.Go to line
+	parser.add_argument('--graph', default='model_test.tflite')
+	parser.add_argument('--labels', default='labelmap.txt')
+	
+	2.1.change it from detect.tflite -> model_test.tflite
+3.Go to line
+	if use_TPU and GRAPH_NAME == 'detect.tflite':
+    	GRAPH_NAME = 'edgetpu.tflite'
+	
+	3.1.change it from detect.tflite -> model_test.tflite
+			   edgetpu.tflite -> model_test_edgetpu.tflite
+4.save file by ctrl+x and y and enter
+5.Run the 3 in "On coral"
+
+
+======================================================================================================================================
+Receiver code
+1.open terminal
+2.run this command
+	gst-launch-1.0 -v udpsrc port=5000 caps="application/x-rtp,encoding-name=H264, payload=96" ! \
+	queue max-size-buffers=1 max-size-time=0 max-size-bytes=0 ! \
+	rtph264depay ! \
+	avdec_h264 ! \
+	videoconvert ! \
+	autovideosink sync=false
+	
+
+=======================================================================================================================================
+check device connect
+1.v4l2-ctl --list-devices
+
+
+========================================================================================================================================
+Problem when detect
+Out Standing
+-Check LAN

@@ -1,0 +1,51 @@
+
+********************************************************************************************************************************************
+(sim)
+GAZEBO
+gazebo --verbose ~/ardupilot_gazebo/worlds/runway.world
+gazebo --verbose ~/ardupilot_gazebo/worlds/iris_arducopter_runway.world
+gazebo --verbose ~/ardupilot_gazebo/worlds/iris_arducopter_cmac.world 
+gazebo --verbose /home/knight/catkin_ws/src/iq_sim/worlds/droneOnly.world
+
+cd ~/ardupilot/ArduCopter/
+sim_vehicle.py -v ArduCopter -L NKRAFA -f gazebo-iris --console --map --out=udp:127.0.0.1:14000 --out=udp:10.235.173.176:20000
+
+sim_vehicle.py -v ArduCopter -l 14.6531293,101.1872792,0,0 --console --map --out=udp:127.0.0.1:14000 --out=udp:10.235.170.233:14000
+
+DRONEKIT
+dronekit-sitl copter --home=14.654896905583852, 101.18311918002712,0,180
+mavproxy.py --master tcp:127.0.0.1:5760 --sitl 127.0.0.1:5501 --out=udp:127.0.0.1:14000 
+********************************************************************************************************************************************
+
+(real) 
+ls /dev/serial/by-id/
+mavproxy.py --master=/dev/serial/by-id/usb-Hex_ProfiCNC_CubeOrange_23003C001551393334373535-if00 --out=udp:127.0.0.1:14000
+
+mavproxy.py --master=udp:192.168.144.103:14000 --out=udp:127.0.0.1:14000 --map --console
+********************************************************************************************************************************************
+
+MissionPlanner
+cd /home/knight/MissionPlanner
+mono MissionPlanner.exe
+
+output add :198.167.1.7:14000
+
+--out=udp:198.167.1.7:14000
+
+rosrun rqt_image_view rqt_image_view
+
+cp ~/catkin_ws/src/iq_sim/scripts/startsitl.sh ~
+~/startsitl.sh
+
+
+14.6508159 101.1881442 10
+
+cd ~/UAV-Pegasus/Full-mission
+python SIM_TEST7.2.py
+
+
+gstreamer sender
+gst-launch-1.0 v4l2src device=/dev/video2 ! videoconvert ! videoscale ! video/x-raw,width=1280,height=720 ! x264enc tune=zerolatency bitrate=500 speed-preset=ultrafast ! rtph264pay config-interval=1 pt=96 ! udpsink host=10.235.175.83 port=5000
+
+gstreamer receiver
+gst-launch-1.0 udpsrc port=5000 caps="application/x-rtp, encoding-name=H264, payload=96" ! rtph264depay ! avdec_h264 ! videoconvert ! autovideosink
